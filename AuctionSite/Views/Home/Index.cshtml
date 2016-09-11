@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<header>
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1 id="homeHeading">SIMPLY THE BEST AUCTION SITE TO FIND THE BEST DEALS</h1>
+            <hr>
+            <p>GoodDeal helps you to find the best deals in the fastest way. </p>
+            <a href="#products" class="btn btn-primary btn-xl page-scroll">Directly to Deals</a>
+        </div>
+    </div>
+</header>
+<section class="bg-primary" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">We guide you to find the best deals!</h2>
+                <hr class="light">
+                <p class="text-faded">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+                <a href="#products" class="page-scroll btn btn-default btn-xl sr-button">See deals!</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="services" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">At Your Service</h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+    <div class="container" >
+        <div class="row">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
+                    <h3>Easy to find</h3>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-paper-plane text-primary sr-icons"></i>
+                    <h3>Ready to Ship</h3>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod!</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                    <h3>Up to Date</h3>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-heart text-primary sr-icons"></i>
+                    <h3>Made with Love</h3>
+                    <p class="text-muted">Lorem ipsum dolor sit amet!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+<section id="products">
+<div class="container" id="productsContainer">
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h2 class="section-heading"> Good Deals </h2>
+            <hr class="primary" />
+        </div>
+    </div>
+    </div>
+    </section>
+    
+    <section class="bg-primary" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Let's Get In Touch!</h2>
+                    <hr class="primary">
+                    <p>Ready to start your bidding journey with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
+                </div>
+                <div class="col-lg-4 col-lg-offset-2 text-center">
+                    <i class="fa fa-phone fa-3x sr-contact"></i>
+                    <p>123-456-6789</p>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <i class="fa fa-envelope-o fa-3x sr-contact"></i>
+                    <p><a id="emailAddress" href="mailto:your-email@your-domain.com">feedback@gooddeal.com</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+<script>
+    var products = new Array();
+    $(document).ready(function () {
+        $.ajax({
+            url: 'https://demo9395586.mockable.io/products',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {     
+                console.log(data);
+                products = data.products;                
+                for (i = 0; i < products.length; i++) {
+                    $('#productsContainer')
+                        .append(
+                        '<div class="row productsList"><div class="col-md-5 "><img class="img-responsive prodImg" /></div><div class="col-md-7 prodInfo"><h3 class="prodName"></h3><h4 class="prodDate"></h4><p class="prodSpecifct"></p> <a class="btn btn-primary viewDetailsBtn">View Details<span class="prodId" hidden></span><span class="glyphicon glyphicon-chevron-right"></span></a></div></div><hr>');
+                    $('.prodImg').last().attr("src", products[i].images[0].imageSrc);
+                    $('.prodName').last().append(products[i].name);
+                    $('.prodDate').last().append('Available to bid: ' + products[i].startDate + " to " + products[i].endDate);
+                    $('.prodSpecifct').last().append(products[i].specification);
+                    $('.prodId').last().text(products[i].id);                    
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+        });
+    });
+    $(document).on('click', '.viewDetailsBtn', function () {
+        $('section.container-B').append(this);
+        var id = $('span:first', this).text();
+        location.href = "/Products/Details/" + id;
+    });
+</script>
+ 
